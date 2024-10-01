@@ -21,7 +21,9 @@ in nodePkgs."elm-pages".overrideAttrs (
     nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ makeWrapper old.nodejs.pkgs.node-gyp-build ];
 
     preRebuild = ''
-      sed -i 's/"esbuild": "0\.19\.12"/"esbuild": "0.21.5"/' package.json
+      substituteInPlace package.json \
+        --replace '"esbuild": "0.19.12"' '"esbuild": "0.21.5"' \
+        --replace-fail
     '';
 
     # can't use `patches = [ <patch_file> ]` with a nodePkgs derivation;
