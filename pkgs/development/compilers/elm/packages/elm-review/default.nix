@@ -4,6 +4,7 @@
   fetchFromGitHub,
   testers,
   elm-review,
+  callPackage,
 }:
 
 buildNpmPackage rec {
@@ -20,15 +21,19 @@ buildNpmPackage rec {
   npmDepsHash = "sha256-5tSe/nK3X1MgX7uwTrFApw60i8c14ZWbk+IrgXMxTVc";
 
   postPatch = ''
-    sed -i "s/elm-tooling install/echo 'skipping elm-tooling install'/g" package.json
+    substituteInPlace package.json \
+      --replace-fail "elm-tooling install" "echo 'skipping elm-tooling install'"
   '';
 
   dontNpmBuild = true;
 
-  passthru.tests.version = testers.testVersion {
-    version = "${version}";
-    package = elm-review;
-    command = "elm-review --version";
+  passthru.tests = {
+    version = testers.testVersion {
+      version = "${version}";
+      package = elm-review;
+      command = "elm-review --version";
+    };
+    integration = callPackage ./elm-review-test.nix { };
   };
 
   meta = {
