@@ -24,27 +24,6 @@ in
 with self; with elmLib; {
   inherit (nodePkgs) elm-live elm-upgrade elm-xref elm-analyse elm-git-install;
 
-  elm-verify-examples =
-    let
-      patched = patchBinwrap [ elmi-to-json ] nodePkgs.elm-verify-examples // {
-        meta = with lib; nodePkgs.elm-verify-examples.meta // {
-          description = "Verify examples in your docs";
-          homepage = "https://github.com/stoeffel/elm-verify-examples";
-          license = licenses.bsd3;
-          maintainers = [ maintainers.turbomack ];
-        };
-      };
-    in
-    patched.override (old: {
-      inherit ESBUILD_BINARY_PATH;
-      preRebuild = (old.preRebuild or "") + ''
-        # This should not be needed (thanks to binwrap* being nooped) but for some reason it still needs to be done
-        # in case of just this package
-        # TODO: investigate, same as for elm-coverage below
-        sed 's/\"install\".*/\"install\":\"echo no-op\",/g' --in-place node_modules/elmi-to-json/package.json
-      '';
-    });
-
   elm-coverage =
     let
       patched = patchNpmElm (patchBinwrap [ elmi-to-json ] nodePkgs.elm-coverage);
