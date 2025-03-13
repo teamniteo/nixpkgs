@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  name = "pgweb";
+  name = "paretosecurity";
   meta.maintainers = [ lib.maintainers.zupo ];
 
   nodes.machine =
