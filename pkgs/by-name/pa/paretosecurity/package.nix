@@ -25,10 +25,6 @@ buildGoModule rec {
     "-X=github.com/ParetoSecurity/pareto-core/shared.Date=1970-01-01T00:00:00Z"
   ];
 
-  # TODO: remove
-  doCheck = false;
-
-
   meta = {
     description = "Pareto Security app makes sure your laptop is correctly configured for security.";
     homepage = "https://github.com/ParetoSecurity/pareto-core";
