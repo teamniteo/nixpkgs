@@ -2,6 +2,8 @@
   lib,
   buildGoModule,
   fetchFromGitHub,
+  testers,
+  paretosecurity
 }:
 
 buildGoModule rec {
@@ -24,6 +26,12 @@ buildGoModule rec {
     "-X=github.com/ParetoSecurity/pareto-core/shared.Commit=${src.rev}"
     "-X=github.com/ParetoSecurity/pareto-core/shared.Date=1970-01-01T00:00:00Z"
   ];
+
+  passthru.tests.version = testers.testVersion {
+    version = "${version}";
+    package = paretosecurity;
+    command = "paretosecurity version";
+  };
 
   meta = {
     description = "Pareto Security app makes sure your laptop is correctly configured for security.";
