@@ -3,7 +3,8 @@
   buildGoModule,
   fetchFromGitHub,
   testers,
-  paretosecurity
+  paretosecurity,
+  nixosTests,
 }:
 
 buildGoModule rec {
@@ -27,10 +28,13 @@ buildGoModule rec {
     "-X=github.com/ParetoSecurity/pareto-core/shared.Date=1970-01-01T00:00:00Z"
   ];
 
-  passthru.tests.version = testers.testVersion {
-    version = "${version}";
-    package = paretosecurity;
-    command = "paretosecurity version";
+  passthru.tests = {
+    version = testers.testVersion {
+      version = "${version}";
+      package = paretosecurity;
+      command = "paretosecurity version";
+    };
+    integration_test = nixosTests.paretosecurity;
   };
 
   meta = {
