@@ -23,9 +23,9 @@ buildGoModule rec {
   ldflags = [
     "-s"
     "-w"
-    "-X=github.com/ParetoSecurity/pareto-core/shared.Version=${version}"
-    "-X=github.com/ParetoSecurity/pareto-core/shared.Commit=${src.rev}"
-    "-X=github.com/ParetoSecurity/pareto-core/shared.Date=1970-01-01T00:00:00Z"
+    "-X=github.com/ParetoSecurity/agent/shared.Version=${version}"
+    "-X=github.com/ParetoSecurity/agent/shared.Commit=${src.rev}"
+    "-X=github.com/ParetoSecurity/agent/shared.Date=1970-01-01T00:00:00Z"
   ];
 
   passthru.tests = {
@@ -39,7 +39,7 @@ buildGoModule rec {
 
   meta = {
     description = "Pareto Security app makes sure your laptop is correctly configured for security.";
-    homepage = "https://github.com/ParetoSecurity/pareto-core";
+    homepage = "https://github.com/ParetoSecurity/agent";
     license = lib.licenses.gpl3Only;
     maintainers = with lib.maintainers; [ ];
     mainProgram = "paretosecurity";
