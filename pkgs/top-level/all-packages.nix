@@ -3036,10 +3036,6 @@ with pkgs;
 
   dnsviz = python3Packages.callPackage ../tools/networking/dnsviz { };
 
-  diffoscope = callPackage ../tools/misc/diffoscope {
-    jdk = jdk8;
-  };
-
   diffoscopeMinimal = diffoscope.override {
     enableBloat = false;
   };
@@ -5037,6 +5033,7 @@ with pkgs;
   stutter = haskell.lib.compose.justStaticExecutables haskellPackages.stutter;
 
   strongswanTNC = strongswan.override { enableTNC = true; };
+  strongswanTPM = strongswan.override { enableTPM2 = true; };
   strongswanNM  = strongswan.override { enableNetworkManager = true; };
 
   stylish-haskell = haskell.lib.compose.justStaticExecutables haskellPackages.stylish-haskell;
@@ -8156,6 +8153,10 @@ with pkgs;
 
   inherit (callPackage ../development/tools/replay-io { })
     replay-io replay-node-cli;
+
+  rescript-language-server = callPackage ../by-name/re/rescript-language-server/package.nix {
+    rescript-editor-analysis = vscode-extensions.chenglou92.rescript-vscode.rescript-editor-analysis;
+  };
 
   rnginline = with python3Packages; toPythonApplication rnginline;
 
@@ -11937,8 +11938,6 @@ with pkgs;
     inherit (darwin) IOKit;
   };
 
-  htop-vim = callPackage ../tools/system/htop/htop-vim.nix { };
-
   humility = callPackage ../development/tools/rust/humility {
     inherit (darwin.apple_sdk.frameworks) AppKit;
   };
@@ -12033,6 +12032,10 @@ with pkgs;
   linuxPackages-rt_latest = linuxKernel.packageAliases.linux_rt_latest;
   linux-rt = linuxPackages-rt.kernel;
   linux-rt_latest = linuxPackages-rt_latest.kernel;
+
+  # Amateur Radio kernel
+  linuxPackages_ham = linuxKernel.packages.linux_ham;
+  linux_ham = linuxPackages_ham.kernel;
 
   # hardened kernels
   linuxPackages_hardened = linuxKernel.packages.linux_hardened;
@@ -13137,15 +13140,6 @@ with pkgs;
   };
 
   inherit (recurseIntoAttrs (callPackage ../applications/editors/emacs { }))
-    emacs28
-    emacs28-gtk3
-    emacs28-nox
-
-    emacs29
-    emacs29-gtk3
-    emacs29-nox
-    emacs29-pgtk
-
     emacs30
     emacs30-gtk3
     emacs30-nox
