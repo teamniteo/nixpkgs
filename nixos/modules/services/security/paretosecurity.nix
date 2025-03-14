@@ -22,51 +22,51 @@
   config = lib.mkIf config.services.paretosecurity.enable {
     environment.systemPackages = [ config.services.paretosecurity.package ];
 
-    # systemd.sockets."paretosecurity" = {
-    #   wantedBy = ["sockets.target"];
-    #   socketConfig = {
-    #     ListenStream = "/var/run/paretosecurity.sock";
-    #     SocketMode = "0666";
-    #   };
-    # };
+    systemd.sockets."paretosecurity" = {
+      wantedBy = ["sockets.target"];
+      socketConfig = {
+        ListenStream = "/var/run/paretosecurity.sock";
+        SocketMode = "0666";
+      };
+    };
 
-    # systemd.services."paretosecurity" = {
-    #   requires = ["paretosecurity.socket"];
-    #   after = ["paretosecurity.socket"];
-    #   wantedBy = ["multi-user.target"];
-    #   serviceConfig = {
-    #     ExecStart = "${config.services.paretosecurity.package}/bin/paretosecurity helper --socket /var/run/paretosecurity.sock";
-    #     User = "root";
-    #     Group = "root";
-    #     StandardInput = "socket";
-    #     Type = "oneshot";
-    #     RemainAfterExit = "no";
-    #     StartLimitInterval = "1s";
-    #     StartLimitBurst = 100;
-    #     ProtectSystem = "full";
-    #     ProtectHome = true;
-    #     StandardOutput = "journal";
-    #     StandardError = "journal";
-    #   };
-    # };
+    systemd.services."paretosecurity" = {
+      requires = ["paretosecurity.socket"];
+      after = ["paretosecurity.socket"];
+      # wantedBy = ["multi-user.target"];
+      serviceConfig = {
+        ExecStart = "${config.services.paretosecurity.package}/bin/paretosecurity helper --socket /var/run/paretosecurity.sock";
+        User = "root";
+        Group = "root";
+        StandardInput = "socket";
+        Type = "oneshot";
+        RemainAfterExit = "no";
+        StartLimitInterval = "1s";
+        StartLimitBurst = 100;
+        ProtectSystem = "full";
+        ProtectHome = true;
+        StandardOutput = "journal";
+        StandardError = "journal";
+      };
+    };
 
 
-    # systemd.user.services."paretosecurity-hourly" = {
-    #   wantedBy = ["timers.target"];
-    #   serviceConfig = {
-    #     Type = "oneshot";
-    #     ExecStart = "${config.services.paretosecurity.package}/bin/paretosecurity check";
-    #     StandardInput = "null";
-    #   };
-    # };
+    systemd.user.services."paretosecurity-hourly" = {
+      wantedBy = ["timers.target"];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${config.services.paretosecurity.package}/bin/paretosecurity check";
+        StandardInput = "null";
+      };
+    };
 
-    # systemd.user.timers."paretosecurity-hourly" = {
-    #   wantedBy = ["timers.target"];
-    #   timerConfig = {
-    #     OnCalendar = "hourly";
-    #     Persistent = true;
-    #   };
-    # };
+    systemd.user.timers."paretosecurity-hourly" = {
+      wantedBy = ["timers.target"];
+      timerConfig = {
+        OnCalendar = "hourly";
+        Persistent = true;
+      };
+    };
 
   };
 }
