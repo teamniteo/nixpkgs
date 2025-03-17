@@ -10,7 +10,6 @@
     };
 
   testScript = ''
-    machine.wait_for_unit("paretosecurity.service")
     machine.wait_until_succeeds("paretosecurity check")
   '';
 }

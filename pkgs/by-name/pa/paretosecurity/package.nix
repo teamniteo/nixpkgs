@@ -9,13 +9,13 @@
 
 buildGoModule rec {
   pname = "paretosecurity";
-  version = "0.0.83";
+  version = "0.0.85";
 
   src = fetchFromGitHub {
     owner = "ParetoSecurity";
     repo = "agent";
     rev = version;
-    hash = "sha256-FTAh3jpMzyOhhRG5LmzhrifUc292bqj4AqrkZdsyEPM=";
+    hash = "sha256-C1rjRVc0icSaHhOVIm8sXV9g7GchPCevIXAlSqN4D3g=";
   };
 
   doCheck = false;
@@ -34,7 +34,6 @@ buildGoModule rec {
     version = testers.testVersion {
       version = "${version}";
       package = paretosecurity;
-      command = "paretosecurity version";
     };
     integration_test = nixosTests.paretosecurity;
   };

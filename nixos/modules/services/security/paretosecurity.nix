@@ -47,22 +47,5 @@
       };
     };
 
-    systemd.user.services."paretosecurity-hourly" = {
-      wantedBy = ["timers.target"];
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = "${config.services.paretosecurity.package}/bin/paretosecurity check";
-        StandardInput = "null";
-      };
-    };
-
-    systemd.user.timers."paretosecurity-hourly" = {
-      wantedBy = ["timers.target"];
-      timerConfig = {
-        OnCalendar = "hourly";
-        Persistent = true;
-      };
-    };
-
   };
 }
