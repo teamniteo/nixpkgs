@@ -31,11 +31,8 @@
     };
 
     systemd.services."paretosecurity" = {
-      requires = ["paretosecurity.socket"];
-      after = ["paretosecurity.socket"];
-      # wantedBy = ["multi-user.target"];
       serviceConfig = {
-        ExecStart = "${config.services.paretosecurity.package}/bin/paretosecurity helper --socket /var/run/paretosecurity.sock";
+        ExecStart = "${config.services.paretosecurity.package}/bin/paretosecurity helper";
         User = "root";
         Group = "root";
         StandardInput = "socket";
@@ -49,7 +46,6 @@
         StandardError = "journal";
       };
     };
-
 
     systemd.user.services."paretosecurity-hourly" = {
       wantedBy = ["timers.target"];
